@@ -11,13 +11,13 @@ export function getActiveOrganizationMembershipWhere({
   userId,
   role,
 }: {
-  organizationId: string;
+  organizationId?: string;
   membershipId?: string;
   userId?: string;
   role?: UserRole;
 }): Prisma.OrganizationMemberWhereInput {
   return {
-    organizationId,
+    ...(organizationId ? { organizationId } : {}),
     ...(membershipId ? { id: membershipId } : {}),
     ...(userId ? { userId } : {}),
     ...(role ? { role } : {}),

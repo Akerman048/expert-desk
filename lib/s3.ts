@@ -2,6 +2,7 @@ import "server-only";
 
 import { S3Client } from "@aws-sdk/client-s3";
 import { NodeHttpHandler } from "@smithy/node-http-handler";
+import { S3_CHECKSUM_CONFIG } from "@/lib/s3-checksum-config";
 
 function readPositiveInteger(
   name: string,
@@ -23,6 +24,7 @@ if (!region) {
 
 export const s3 = new S3Client({
   region,
+  ...S3_CHECKSUM_CONFIG,
   maxAttempts: readPositiveInteger("AWS_MAX_ATTEMPTS", 3, 5),
   retryMode: "standard",
   requestHandler: new NodeHttpHandler({

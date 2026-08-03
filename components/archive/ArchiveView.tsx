@@ -12,10 +12,12 @@ export function ArchiveView({
   result,
   query,
   baseHref,
+  clearHref = baseHref,
 }: {
   result: ArchivePage;
   query: ArchiveQuery;
   baseHref: string;
+  clearHref?: string;
 }) {
   const search = firstQueryValue(query.search);
   const archivedBy = firstQueryValue(query.archivedBy);
@@ -61,7 +63,7 @@ export function ArchiveView({
         <div className="flex flex-col gap-2 sm:col-span-2 sm:flex-row lg:col-span-5 lg:justify-end">
           <Button type="submit" className="w-full sm:w-auto">Застосувати</Button>
           <Button asChild type="button" variant="secondary" className="w-full sm:w-auto">
-            <Link href={baseHref}>Очистити</Link>
+            <Link href={clearHref}>Очистити</Link>
           </Button>
         </div>
       </form>

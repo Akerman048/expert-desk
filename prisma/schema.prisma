@@ -127,6 +127,8 @@ model User {
   notifications           Notification[]       @relation("UserNotifications")
   actedNotifications      Notification[]       @relation("ActorNotifications")
   auditLogs               AuditLog[]
+  uploadedArchiveFiles    ArchiveFile[]        @relation("UploadedArchiveFiles")
+  deletedArchiveFiles     ArchiveFile[]        @relation("DeletedArchiveFiles")
   accounts                Account[]
 
   createdAt DateTime @default(now())
@@ -153,9 +155,10 @@ model Organization {
   id   String @id @default(cuid())
   name String
 
-  projects    Project[]
-  members     OrganizationMember[]
-  invitations Invitation[]
+  projects     Project[]
+  members      OrganizationMember[]
+  invitations  Invitation[]
+  archiveFiles ArchiveFile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -189,6 +192,7 @@ model Project {
   documents     Document[]
   auditLogs     AuditLog[]
   notifications Notification[]
+  archiveFiles  ArchiveFile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -346,6 +350,39 @@ model DocumentVersion {
   @@unique([documentId, version])
   @@index([documentId, createdAt])
   @@index([createdById, createdAt])
+}
+
+model ArchiveFile {
+  id           String   @id @default(cuid())
+  name         String
+  originalName String
+  mimeType     String
+  sizeBytes    Int
+  storageKey   String   @unique
+  description  String?
+  archivedAt   DateTime @default(now())
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  uploadedById String
+  uploadedBy   User   @relation("UploadedArchiveFiles", fields: [uploadedById], references: [id], onDelete: Restrict)
+
+  projectId String?
+  project   Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+
+  deletedAt   DateTime?
+  deletedById String?
+  deletedBy   User?     @relation("DeletedArchiveFiles", fields: [deletedById], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([organizationId, archivedAt])
+  @@index([organizationId, name])
+  @@index([organizationId, deletedAt, archivedAt])
+  @@index([projectId])
+  @@index([uploadedById])
 }
 
 model Comment {
