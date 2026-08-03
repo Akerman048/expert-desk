@@ -40,8 +40,8 @@ export async function DashboardLayout({
   ]);
 
   return (
-    <main className="flex min-h-screen min-w-0 bg-[var(--color-background)]">
-      <div className="hidden lg:block">
+    <main className="flex min-h-dvh w-full min-w-0 bg-[var(--color-background)] lg:h-dvh lg:min-h-0 lg:overflow-hidden">
+      <div className="hidden h-full shrink-0 lg:block">
         <Sidebar
           role={role}
           user={session.user}
@@ -59,7 +59,7 @@ export async function DashboardLayout({
         archiveCount={archiveCount}
       />
 
-      <section className="min-w-0 flex-1 px-4 pb-6 pt-20 sm:px-6 sm:pb-8 lg:p-8">
+      <section className="min-w-0 flex-1 overflow-x-hidden px-4 pb-6 pt-20 sm:px-6 sm:pb-8 lg:min-h-0 lg:overflow-y-auto lg:overscroll-contain lg:p-8">
         {children}
       </section>
     </main>

@@ -92,7 +92,7 @@ export function SidebarNav({
   const navItems = navByRole[role];
 
   return (
-    <div className="flex flex-1 flex-col gap-1">
+    <div className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overscroll-contain">
       {navItems.map((item) => (
         <SidebarNavItem
           key={item.href}
