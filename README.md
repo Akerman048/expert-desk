@@ -221,3 +221,5 @@ cd maibud
 - The current bucket may keep its legacy name. Merely changing `AWS_S3_BUCKET` points the application at a different bucket.
 - To adopt a `maibud-*` bucket, create and configure it manually, copy and verify all objects, update bucket CORS/allowed origins, then update the deployment secret.
 - Existing `DocumentVersion.objectKey` values must not be rewritten. Do not delete the previous bucket until downloads, previews and uploads have been verified against the new one.
+
+CI/CD test
